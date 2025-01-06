@@ -13,9 +13,6 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Copy .env file (Optional: Avoid in production for security)
-COPY .env .env
-
 # Run prisma
 RUN npx prisma generate
 
