@@ -26,6 +26,27 @@ model AssetHeader{
   assetDescription  String?
   assetSerialNo     String?
   siteSection       String?
+  assetItems        AssetItems[]
 
   customer Customers @relation(fields: [customerId], references: [id]) // Foreign Key relationship
+}
+
+model AssetItems{
+  id Int @id @default(autoincrement())
+  assetHeaderId Int // Foreign key referencing AssetHeader
+  duty String?
+  specification String?
+  valveType String?
+  valveSize String?
+  model String?
+  actuation String?
+  actuationType String?
+  flangeConnection String?
+  instrumentation String?
+  oemPartNumber String?
+  ansi String?
+  generalNotes String?
+  images String? 
+
+  assetHeader AssetHeader @relation(fields: [assetHeaderId], references: [id])
 }

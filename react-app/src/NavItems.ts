@@ -42,12 +42,12 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: "New Asset Items",
         subLabel: "Create New Asset Items",
-        href: "#",
+        href: "/createAssetItems",
       },
       {
         label: "View Asset Items",
         subLabel: "View Existing Asset Items",
-        href: "#",
+        href: "/viewAssetItems",
       },
     ],
   },

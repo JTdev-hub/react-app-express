@@ -12,13 +12,8 @@ class HttpService {
   }
 
   getAll<T>(id?: number) {
-    const controller = new AbortController();
     const url = id ? `${this.endpoint}?id=${id}` : this.endpoint;
-    const request = apiClient.get<T[]>(url, {
-      signal: controller.signal,
-    });
-
-    return { request, cancel: () => controller.abort() };
+    return apiClient.get<T[]>(url);
   }
 
   delete(id: number) {
@@ -26,7 +21,9 @@ class HttpService {
   }
 
   create<T>(entity: T) {
-    return apiClient.post(this.endpoint, entity);
+    return apiClient.post(this.endpoint, entity, {
+      maxContentLength: 50 * 1024 * 1024,
+    });
   }
 
   update<T extends Entity>(entity: T) {

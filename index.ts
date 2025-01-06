@@ -6,7 +6,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 
 const port = process.env.PORT || 8080;
@@ -74,6 +75,63 @@ app.get("/customersAssetHeaders", async (req, res) => {
     },
   });
   res.json(assetAndCustomers);
+});
+
+app.get("/assetItems", async (req, res) => {
+  const assetItems = await prisma.assetItems.findMany({});
+
+  res.json(assetItems);
+});
+
+app.get("/assetItemsWithHeader", async (req, res) => {
+  const { id } = req.query;
+  const assetItems = await prisma.assetItems.findMany({
+    where: id ? { id: Number(id) } : undefined,
+    include: {
+      assetHeader: true,
+    },
+  });
+
+  res.json(assetItems);
+});
+
+app.post("/assetItems", async (req, res) => {
+  const {
+    assetHeaderId,
+    duty,
+    specification,
+    valveType,
+    valveSize,
+    model,
+    actuation,
+    actuationType,
+    flangeConnection,
+    instrumentation,
+    oemPartNumber,
+    ansi,
+    generalNotes,
+    images,
+  } = req.body;
+
+  const newAssetItems = await prisma.assetItems.create({
+    data: {
+      assetHeaderId,
+      duty,
+      specification,
+      valveType,
+      valveSize,
+      model,
+      actuation,
+      actuationType,
+      flangeConnection,
+      instrumentation,
+      oemPartNumber,
+      ansi,
+      generalNotes,
+      images,
+    },
+  });
+  res.json(newAssetItems);
 });
 
 app.use(express.static("react-app/dist"));

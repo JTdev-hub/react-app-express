@@ -1,33 +1,17 @@
-import { CanceledError } from "axios";
-import { useState, useEffect } from "react";
 import customerWithAssetsService, {
   CustomerWithAssets,
 } from "../services/customerWithAssets-service";
+import { useQuery } from "@tanstack/react-query";
 
 const useCustomerAssetsHeader = (id?: number) => {
-  const [isLoading, setLoading] = useState(false);
-  const [assetHeaders, setAssetHeaders] = useState<CustomerWithAssets[]>([]);
-  const [error, setError] = useState("");
+  const fetchCustomersWithAssetHeaders = () =>
+    customerWithAssetsService
+      .getAll<CustomerWithAssets>(id)
+      .then((res) => res.data);
 
-  useEffect(() => {
-    setLoading(true);
-    const { request, cancel } =
-      customerWithAssetsService.getAll<CustomerWithAssets>(id);
-    request
-      .then((res) => {
-        setAssetHeaders(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
-
-    return () => cancel();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return { assetHeaders, error, isLoading, setAssetHeaders, setError };
+  return useQuery<CustomerWithAssets[], Error>({
+    queryKey: ["customerWithAssetHeaders"],
+    queryFn: fetchCustomersWithAssetHeaders,
+  });
 };
 export default useCustomerAssetsHeader;

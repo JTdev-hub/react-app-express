@@ -1,5 +1,6 @@
 import {
   Box,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -12,7 +13,18 @@ import {
 import useCustomerAssetsHeader from "../hooks/useCustomerWithAssetHeaders";
 
 const AssetHeadersDetails = () => {
-  const { assetHeaders } = useCustomerAssetsHeader();
+  const { data: assetHeaders, isLoading } = useCustomerAssetsHeader();
+
+  if (isLoading)
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    );
 
   return (
     <Box overflowX="auto">
@@ -32,7 +44,7 @@ const AssetHeadersDetails = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {assetHeaders.map((assetHeader) =>
+            {assetHeaders?.map((assetHeader) =>
               assetHeader.assetHeaders.map((headerDetails) => (
                 <Tr key={headerDetails.id}>
                   <Td textAlign="center">{assetHeader.customerName}</Td>

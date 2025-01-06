@@ -1,5 +1,6 @@
 import {
   Box,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -12,23 +13,20 @@ import {
 import useCustomers from "../hooks/useCustomers";
 
 const CustomerDetails = () => {
-  //   const [customers, setCustomers] = useState<Customer[]>([]);
-  //   useEffect(() => {
-  //     const controller = new AbortController();
-  //     axios
-  //       .get("/customers", {
-  //         signal: controller.signal,
-  //       })
-  //       .then((res) => {
-  //         setCustomers(res.data);
-  //       })
-  //       .catch((err) => {
-  //         if (err instanceof CanceledError) return;
-  //       });
+  const { data: customers, isLoading } = useCustomers();
 
-  //     return () => controller.abort();
-  //   });
-  const { customers } = useCustomers();
+  if (isLoading)
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+        justifySelf="center"
+      />
+    );
+
   return (
     <Box overflowX="auto">
       <TableContainer>
@@ -45,7 +43,7 @@ const CustomerDetails = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {customers.map((customer) => (
+            {customers?.map((customer) => (
               <Tr key={customer.id}>
                 <Td width="50px" textAlign="center">
                   {customer.id}

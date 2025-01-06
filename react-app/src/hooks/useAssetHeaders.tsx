@@ -1,31 +1,15 @@
-import { CanceledError } from "axios";
-import { useState, useEffect } from "react";
 import assetHeaderService, {
   AssetHeader,
 } from "../services/assetHeader-service";
+import { useQuery } from "@tanstack/react-query";
 
-const useCustomers = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [assetHeaders, setAssetHeaders] = useState<AssetHeader[]>([]);
-  const [error, setError] = useState("");
+const useAssetHeaders = () => {
+  const fetchAssetHeaders = () =>
+    assetHeaderService.getAll<AssetHeader>().then((res) => res.data);
 
-  useEffect(() => {
-    setLoading(true);
-    const { request, cancel } = assetHeaderService.getAll<AssetHeader>();
-    request
-      .then((res) => {
-        setAssetHeaders(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
-
-    return () => cancel();
-  }, []);
-
-  return { assetHeaders, error, isLoading, setAssetHeaders, setError };
+  return useQuery<AssetHeader[], Error>({
+    queryKey: ["assetHeaders"],
+    queryFn: fetchAssetHeaders,
+  });
 };
-export default useCustomers;
+export default useAssetHeaders;
