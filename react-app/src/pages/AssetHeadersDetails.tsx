@@ -1,6 +1,6 @@
 import {
   Box,
-  Spinner,
+  SkeletonText,
   Table,
   TableCaption,
   TableContainer,
@@ -15,16 +15,7 @@ import useCustomerAssetsHeader from "../hooks/useCustomerWithAssetHeaders";
 const AssetHeadersDetails = () => {
   const { data: assetHeaders, isLoading } = useCustomerAssetsHeader();
 
-  if (isLoading)
-    return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    );
+  if (isLoading) return <SkeletonText noOfLines={3} gap={4} />;
 
   return (
     <Box overflowX="auto">

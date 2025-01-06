@@ -1,6 +1,6 @@
 import {
   Box,
-  Spinner,
+  SkeletonText,
   Table,
   TableCaption,
   TableContainer,
@@ -15,17 +15,7 @@ import useCustomers from "../hooks/useCustomers";
 const CustomerDetails = () => {
   const { data: customers, isLoading } = useCustomers();
 
-  if (isLoading)
-    return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-        justifySelf="center"
-      />
-    );
+  if (isLoading) return <SkeletonText noOfLines={3} gap={4} />;
 
   return (
     <Box overflowX="auto">

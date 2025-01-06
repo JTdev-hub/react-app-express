@@ -61,7 +61,7 @@ const schema = z.object({
 type AssetItemsFormData = z.infer<typeof schema>;
 
 const AssetItemsForm = () => {
-  const { mutate: addAssetItems, alertMessage } = useAddAssetItems();
+  const { mutate: addAssetItems, alertMessage, isPending } = useAddAssetItems();
   const {
     register,
     handleSubmit,
@@ -273,7 +273,7 @@ const AssetItemsForm = () => {
               </VStack>
             </HStack>
             <Button colorScheme="teal" size="md" marginTop={3} type="submit">
-              Submit
+              {isPending ? "Submitting" : "Submit"}
             </Button>
           </CardForms>
         </Flex>

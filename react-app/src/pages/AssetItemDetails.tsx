@@ -1,66 +1,87 @@
 import { useParams } from "react-router-dom";
-import useAssetItemsWithHeaders from "../hooks/useAssetItemsWithHeaders";
-import { Text, Image, HStack, Stack, Flex } from "@chakra-ui/react";
+
+import {
+  Text,
+  Image,
+  HStack,
+  Stack,
+  Flex,
+  Skeleton,
+  SkeletonText,
+} from "@chakra-ui/react";
 import CardForms from "../components/CardForms";
+import useAssetItemDetails from "../hooks/useAssetItemDetails";
 
 const AssetItemDetails = () => {
   const { id } = useParams();
-  const { data: assetItemWithHeader } = useAssetItemsWithHeaders(parseInt(id!));
+  const { data: assetItemDetails, isLoading } = useAssetItemDetails(
+    parseInt(id!)
+  );
+
+  if (isLoading)
+    return (
+      <Flex justifyContent="center">
+        <CardForms>
+          <SkeletonText padding={10} />
+          <Skeleton height="500px" />
+        </CardForms>
+      </Flex>
+    );
   return (
     <Flex justifyContent="center">
       <CardForms>
-        {assetItemWithHeader?.map((assetItemWithHeader) => (
-          <Stack spacing={3} key={assetItemWithHeader.id}>
+        {assetItemDetails?.map((assetItemDetails) => (
+          <Stack spacing={3} key={assetItemDetails.id}>
             <HStack>
               <Text fontWeight="bold">Asset Number: </Text>
-              <Text>{assetItemWithHeader.assetHeader.assetNumber}</Text>
+              <Text>{assetItemDetails.assetHeader.assetNumber}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Duty: </Text>
-              <Text>{assetItemWithHeader.duty}</Text>
+              <Text>{assetItemDetails.duty}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Specification: </Text>
-              <Text>{assetItemWithHeader.specification}</Text>
+              <Text>{assetItemDetails.specification}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Valve Type: </Text>
-              <Text>{assetItemWithHeader.valveType}</Text>
+              <Text>{assetItemDetails.valveType}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Valve Size: </Text>
-              <Text>{assetItemWithHeader.valveSize}</Text>
+              <Text>{assetItemDetails.valveSize}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Actuation: </Text>
-              <Text>{assetItemWithHeader.actuation}</Text>
+              <Text>{assetItemDetails.actuation}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Actuation Type: </Text>
-              <Text>{assetItemWithHeader.actuationType}</Text>
+              <Text>{assetItemDetails.actuationType}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Flange Connection: </Text>
-              <Text>{assetItemWithHeader.flangeConnection}</Text>
+              <Text>{assetItemDetails.flangeConnection}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">Instrumentation: </Text>
-              <Text>{assetItemWithHeader.instrumentation}</Text>
+              <Text>{assetItemDetails.instrumentation}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">OEM Part Number: </Text>
-              <Text>{assetItemWithHeader.oemPartNumber}</Text>
+              <Text>{assetItemDetails.oemPartNumber}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">ANSI: </Text>
-              <Text>{assetItemWithHeader.ansi}</Text>
+              <Text>{assetItemDetails.ansi}</Text>
             </HStack>
             <HStack>
               <Text fontWeight="bold">General Notes: </Text>
-              <Text>{assetItemWithHeader.generalNotes}</Text>
+              <Text>{assetItemDetails.generalNotes}</Text>
             </HStack>
             <Text fontWeight="bold">Image/s: </Text>
-            <Image src={assetItemWithHeader.images}></Image>
+            <Image src={assetItemDetails.images}></Image>
           </Stack>
         ))}
       </CardForms>

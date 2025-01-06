@@ -1,5 +1,6 @@
 import {
   Box,
+  SkeletonText,
   Table,
   TableCaption,
   TableContainer,
@@ -15,8 +16,9 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
 const AssetItemTables = () => {
-  const { data: assetItemsWithHeaders } = useAssetItemWithHeaders();
+  const { data: assetItemsWithHeaders, isLoading } = useAssetItemWithHeaders();
 
+  if (isLoading) return <SkeletonText noOfLines={3} gap={4} />;
   return (
     <Box overflowX="auto">
       <TableContainer>

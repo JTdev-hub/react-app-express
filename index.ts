@@ -87,8 +87,59 @@ app.get("/assetItemsWithHeader", async (req, res) => {
   const { id } = req.query;
   const assetItems = await prisma.assetItems.findMany({
     where: id ? { id: Number(id) } : undefined,
-    include: {
-      assetHeader: true,
+    select: {
+      id: true,
+      assetHeaderId: true,
+      duty: true,
+      specification: true,
+      valveType: true,
+      valveSize: true,
+      model: true,
+      actuation: true,
+      actuationType: true,
+      flangeConnection: true,
+      instrumentation: true,
+      oemPartNumber: true,
+      ansi: true,
+      generalNotes: true,
+      assetHeader: {
+        select: {
+          id: true,
+          assetNumber: true,
+        },
+      },
+    },
+  });
+
+  res.json(assetItems);
+});
+
+app.get("/assetItemDetails", async (req, res) => {
+  const { id } = req.query;
+  const assetItems = await prisma.assetItems.findMany({
+    where: id ? { id: Number(id) } : undefined,
+    select: {
+      id: true,
+      assetHeaderId: true,
+      duty: true,
+      specification: true,
+      valveType: true,
+      valveSize: true,
+      model: true,
+      actuation: true,
+      actuationType: true,
+      flangeConnection: true,
+      instrumentation: true,
+      oemPartNumber: true,
+      ansi: true,
+      generalNotes: true,
+      images: true,
+      assetHeader: {
+        select: {
+          id: true,
+          assetNumber: true,
+        },
+      },
     },
   });
 
