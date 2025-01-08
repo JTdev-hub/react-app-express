@@ -1,4 +1,4 @@
-import create from "./http-service.js";
+import HttpService from "./http-service.js";
 
 export interface Customer {
   id?: number;
@@ -7,4 +7,4 @@ export interface Customer {
   customerContact: string;
 }
 
-export default create("/customers");
+export default new HttpService<Customer>("/customers");

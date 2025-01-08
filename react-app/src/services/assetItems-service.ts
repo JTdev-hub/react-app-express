@@ -1,4 +1,4 @@
-import create from "./http-service.js";
+import HttpService from "./http-service.js";
 
 export interface AssetItems {
   id?: number;
@@ -18,4 +18,4 @@ export interface AssetItems {
   images: string;
 }
 
-export default create("/assetItems");
+export default new HttpService<AssetItems>("/assetItems");

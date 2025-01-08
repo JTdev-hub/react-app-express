@@ -8,8 +8,7 @@ const useAddAssetHeaders = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const mutate = useMutation<AssetHeader, Error, AssetHeader>({
-    mutationFn: (assetHeader: AssetHeader) =>
-      assetHeaderService.create(assetHeader).then((res) => res.data),
+    mutationFn: assetHeaderService.create,
     onSuccess: (savedAssetHeader) => {
       queryClient.setQueryData<AssetHeader[]>(
         ["assetHeader"],

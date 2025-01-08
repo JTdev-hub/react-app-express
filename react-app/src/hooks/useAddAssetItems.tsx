@@ -7,8 +7,7 @@ const useAddAssetItems = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const mutate = useMutation<AssetItems, Error, AssetItems>({
-    mutationFn: (assetItem: AssetItems) =>
-      assetItemsService.create(assetItem).then((res) => res.data),
+    mutationFn: assetItemsService.create,
     onSuccess: (savedAssetItem) => {
       queryClient.setQueryData<AssetItems[]>(["assetItem"], (assetItem) => [
         savedAssetItem,

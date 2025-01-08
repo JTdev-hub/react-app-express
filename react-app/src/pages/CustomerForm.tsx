@@ -1,18 +1,10 @@
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Flex,
-  Input,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Flex, Input, Stack, Text, VStack } from "@chakra-ui/react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import CardForms from "../components/CardForms";
 import useAddUsers from "../hooks/useAddUsers";
+import AlertBanner from "../components/AlertBanner";
 
 const schema = z.object({
   customerName: z
@@ -29,25 +21,42 @@ const schema = z.object({
 type CustomerFormData = z.infer<typeof schema>;
 
 const CustomerForm = () => {
-  const { mutate: addCustomers, alertMessage } = useAddUsers();
   const {
     register,
-    handleSubmit,
     reset,
+    handleSubmit,
     formState: { errors },
   } = useForm<CustomerFormData>({ resolver: zodResolver(schema) });
+
+  const {
+    mutate: addCustomers,
+    isSuccess,
+    showAlert,
+    message,
+    setShowAlert,
+  } = useAddUsers(() => {
+    //Reset fields on success
+    reset();
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+  });
   return (
     <>
-      {alertMessage && (
-        <Alert status="success" marginBottom={4}>
-          <AlertIcon />
-          {alertMessage}
-        </Alert>
+      {/* Display alert when success or when error */}
+      {showAlert && (
+        <AlertBanner
+          message={message}
+          isSuccess={isSuccess}
+          onClose={() => {
+            setShowAlert(false);
+          }}
+        />
       )}
       <form
         onSubmit={handleSubmit((data) => {
           addCustomers(data);
-          reset();
         })}
       >
         <Flex justifyContent="center">

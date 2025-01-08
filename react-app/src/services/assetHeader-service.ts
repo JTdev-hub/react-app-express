@@ -1,4 +1,4 @@
-import create from "./http-service.js";
+import HttpService from "./http-service.js";
 
 export interface AssetHeader {
   id?: number;
@@ -9,4 +9,4 @@ export interface AssetHeader {
   siteSection: string;
 }
 
-export default create("/assetHeaders");
+export default new HttpService<AssetHeader>("/assetHeaders");

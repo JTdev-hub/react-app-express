@@ -4,14 +4,9 @@ import assetItemsWithHeaderService, {
 } from "../services/assetItemsWithHeader-service";
 
 const useAssetItemsWithHeaders = (id?: number) => {
-  const fetchAssetItemsWithHeader = () =>
-    assetItemsWithHeaderService
-      .getAll<AssetItemsWithHeaders>(id)
-      .then((res) => res.data);
-
   return useQuery<AssetItemsWithHeaders[], Error>({
     queryKey: ["assetItemsWithHeader"],
-    queryFn: fetchAssetItemsWithHeader,
+    queryFn: () => assetItemsWithHeaderService.getAll(id),
   });
 };
 

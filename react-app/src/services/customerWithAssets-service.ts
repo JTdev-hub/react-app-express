@@ -1,9 +1,9 @@
 import { AssetHeader } from "./assetHeader-service";
 import { Customer } from "./customer-service";
-import create from "./http-service";
+import HttpService from "./http-service";
 
 export interface CustomerWithAssets extends Customer {
   assetHeaders: AssetHeader[];
 }
 
-export default create("/customersAssetHeaders");
+export default new HttpService<CustomerWithAssets>("/customersAssetHeaders");

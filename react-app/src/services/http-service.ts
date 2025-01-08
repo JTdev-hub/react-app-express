@@ -1,36 +1,38 @@
-import apiClient from "./api-client.js";
+import axios from "axios";
+
+const axiosInstance = axios.create({ baseURL: "http://localhost:8080" });
 
 interface Entity {
   id: number;
 }
 
-class HttpService {
+class HttpService<T> {
   endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
 
-  getAll<T>(id?: number) {
+  getAll = (id?: number) => {
     const url = id ? `${this.endpoint}?id=${id}` : this.endpoint;
-    return apiClient.get<T[]>(url);
-  }
+    return axiosInstance.get<T[]>(url).then((res) => res.data);
+  };
 
-  delete(id: number) {
-    return apiClient.delete(this.endpoint + "/" + id);
-  }
+  delete = (id: number) => {
+    return axiosInstance.delete(this.endpoint + "/" + id);
+  };
 
-  create<T>(entity: T) {
-    return apiClient.post(this.endpoint, entity, {
-      maxContentLength: 50 * 1024 * 1024,
-    });
-  }
+  create = (entity: T) => {
+    return axiosInstance
+      .post(this.endpoint, entity, {
+        maxContentLength: 50 * 1024 * 1024,
+      })
+      .then((res) => res.data);
+  };
 
-  update<T extends Entity>(entity: T) {
-    return apiClient.patch(this.endpoint + "/" + entity.id, entity);
-  }
+  update = <T extends Entity>(entity: T) => {
+    return axiosInstance.patch(this.endpoint + "/" + entity.id, entity);
+  };
 }
 
-const create = (endpoint: string) => new HttpService(endpoint);
-
-export default create;
+export default HttpService;

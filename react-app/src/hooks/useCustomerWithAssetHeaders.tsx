@@ -4,14 +4,9 @@ import customerWithAssetsService, {
 import { useQuery } from "@tanstack/react-query";
 
 const useCustomerAssetsHeader = (id?: number) => {
-  const fetchCustomersWithAssetHeaders = () =>
-    customerWithAssetsService
-      .getAll<CustomerWithAssets>(id)
-      .then((res) => res.data);
-
   return useQuery<CustomerWithAssets[], Error>({
     queryKey: ["customerWithAssetHeaders"],
-    queryFn: fetchCustomersWithAssetHeaders,
+    queryFn: () => customerWithAssetsService.getAll(id),
   });
 };
 export default useCustomerAssetsHeader;
