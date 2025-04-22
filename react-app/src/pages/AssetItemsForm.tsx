@@ -84,6 +84,12 @@ const AssetItemsForm = () => {
         console.log(selectedImage);
       };
       reader.readAsDataURL(file);
+
+      // formData.append("file", image);
+      // formData.append("upload_preset", "unsigned");
+      // formData.append("api_key", import.meta.env.VITE_CLOUDINARY_APIKEY);
+
+      // cloudinaryService.create(formData);
     }
   };
 

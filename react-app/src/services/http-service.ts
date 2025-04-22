@@ -1,6 +1,8 @@
 import axios from "axios";
-
-const axiosInstance = axios.create({ baseURL: "http://localhost:8080" });
+const URL = import.meta.env.VITE_SERVER_URL;
+const axiosInstance = axios.create({
+  baseURL: URL,
+});
 
 interface Entity {
   id: number;

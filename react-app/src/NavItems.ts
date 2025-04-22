@@ -1,5 +1,5 @@
 export interface NavItem {
-  label: string;
+  label?: string;
   subLabel?: string;
   children?: Array<NavItem>;
   href?: string;
@@ -48,6 +48,16 @@ const NAV_ITEMS: Array<NavItem> = [
         label: "View Asset Items",
         subLabel: "View Existing Asset Items",
         href: "/viewAssetItems",
+      },
+    ],
+  },
+  {
+    label: "Photo (TEST)",
+    children: [
+      {
+        label: "Photo Upload",
+        subLabel: "Upload Photos",
+        href: "/uploadPhotos",
       },
     ],
   },
